@@ -1,0 +1,15 @@
+[Unit]
+Description=Astra - Call Intelligence AI Agent (Streamlit)
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/astra
+EnvironmentFile=/home/ubuntu/astra/.env
+ExecStart=/home/ubuntu/astra/.venv/bin/streamlit run app.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

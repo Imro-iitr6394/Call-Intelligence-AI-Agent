@@ -90,6 +90,11 @@ or a `.txt/.md/.json` transcript from the sidebar.
 .venv\Scripts\python.exe -m pytest -q
 ```
 
+## Deploying
+
+See [deploy/README.md](deploy/README.md) for running this on a single AWS EC2
+instance (systemd service, provisioning script, security group notes).
+
 ## Project layout
 
 ```
