@@ -1,0 +1,236 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://astraglobal.example/schemas/call-record.schema.json",
+  "title": "Call Intelligence Call Record",
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["line", "excerpt", "start_seconds", "end_seconds"],
+      "properties": {
+        "line": { "type": "integer", "minimum": 1 },
+        "speaker": { "type": ["string", "null"] },
+        "excerpt": { "type": "string", "minLength": 1 },
+        "start_seconds": { "type": ["number", "null"], "minimum": 0 },
+        "end_seconds": { "type": ["number", "null"], "minimum": 0 }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "call_id",
+    "source",
+    "metadata",
+    "processing",
+    "transcript",
+    "insights",
+    "compliance_findings",
+    "review",
+    "search",
+    "timestamps"
+  ],
+  "properties": {
+    "schema_version": { "type": "integer", "const": 1 },
+    "call_id": { "type": "string", "pattern": "^CALL-[0-9]{4,}$" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file_name", "mime_type", "size_bytes", "input_type", "storage_key"],
+      "properties": {
+        "file_name": { "type": "string", "minLength": 1 },
+        "mime_type": { "type": ["string", "null"] },
+        "size_bytes": { "type": "number", "minimum": 0 },
+        "input_type": { "type": "string", "enum": ["audio", "transcript"] },
+        "storage_key": { "type": ["string", "null"] }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "call_date", "date_source", "language", "speakers", "duration_seconds"],
+      "properties": {
+        "title": { "type": "string" },
+        "call_date": { "type": "string", "format": "date" },
+        "date_source": { "type": "string", "enum": ["provided", "default_current_date", "unknown"] },
+        "language": { "type": "string", "const": "en" },
+        "speakers": { "type": "array", "items": { "type": "string" } },
+        "duration_seconds": { "type": ["number", "null"], "minimum": 0 }
+      }
+    },
+    "processing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "stage", "error"],
+      "properties": {
+        "status": { "type": "string", "enum": ["pending", "processing", "transcript_ready", "completed", "failed"] },
+        "stage": { "type": "string", "enum": ["ingestion", "transcribing", "normalizing", "extracting", "validating", "review", "complete", "failed"] },
+        "error": { "type": ["string", "null"] }
+      }
+    },
+    "transcript": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "text", "lines"],
+      "properties": {
+        "source": { "type": "string", "enum": ["uploaded", "transcription_pending", "transcribed"] },
+        "text": { "type": ["string", "null"] },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["line", "speaker", "start_seconds", "end_seconds", "text"],
+            "properties": {
+              "line": { "type": "integer", "minimum": 1 },
+              "speaker": { "type": "string" },
+              "start_seconds": { "type": ["number", "null"], "minimum": 0 },
+              "end_seconds": { "type": ["number", "null"], "minimum": 0 },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "normalization": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["speaker_labels_inferred", "timestamps_available", "warnings"],
+          "properties": {
+            "speaker_labels_inferred": { "type": "boolean" },
+            "timestamps_available": { "type": "boolean" },
+            "warnings": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "insights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "tag", "decisions", "action_items", "blockers", "sentiment", "confidence"],
+      "properties": {
+        "summary": { "type": ["string", "null"] },
+        "tag": { "type": ["string", "null"], "maxLength": 60 },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["description", "evidence"],
+            "properties": {
+              "description": { "type": "string" },
+              "evidence": { "$ref": "#/$defs/evidence" }
+            }
+          }
+        },
+        "action_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["description", "evidence"],
+            "properties": {
+              "description": { "type": "string" },
+              "owner": { "type": ["string", "null"] },
+              "due_date": { "type": ["string", "null"] },
+              "due_date_phrase": { "type": ["string", "null"] },
+              "status": { "type": ["string", "null"] },
+              "evidence": { "$ref": "#/$defs/evidence" }
+            }
+          }
+        },
+        "blockers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["description", "evidence"],
+            "properties": {
+              "description": { "type": "string" },
+              "evidence": { "$ref": "#/$defs/evidence" }
+            }
+          }
+        },
+        "sentiment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["overall", "anger", "profanity"],
+          "properties": {
+            "overall": { "type": ["string", "null"] },
+            "anger": { "type": ["string", "null"] },
+            "anger_evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+            "profanity": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["word", "evidence"],
+                "properties": {
+                  "word": { "type": "string" },
+                  "evidence": { "$ref": "#/$defs/evidence" }
+                }
+              }
+            }
+          }
+        },
+        "confidence": { "type": ["string", "null"], "enum": ["High", "Medium", "Low", null] }
+      }
+    },
+    "compliance_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "severity", "description", "evidence"],
+        "properties": {
+          "id": { "type": "string" },
+          "type": { "type": "string" },
+          "severity": { "type": "string", "enum": ["Red", "Yellow", "Green"] },
+          "description": { "type": "string" },
+          "evidence": { "$ref": "#/$defs/evidence" }
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "status", "items"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["not_started", "required", "in_progress", "completed"] },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "type", "detail", "review_status", "resolution", "resolution_note", "resolved_at"],
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string" },
+              "detail": { "type": "string" },
+              "severity": { "type": "string" },
+              "evidence": { "$ref": "#/$defs/evidence" },
+              "review_status": { "type": "string" },
+              "resolution": {
+                "type": ["string", "null"],
+                "enum": ["approved", "corrected", "rejected", "resolved", null]
+              },
+              "resolution_note": { "type": ["string", "null"] },
+              "resolved_at": { "type": ["string", "null"] }
+            }
+          }
+        }
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["indexed", "terms"],
+      "properties": {
+        "indexed": { "type": "boolean" },
+        "terms": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["uploaded_at", "updated_at"],
+      "properties": {
+        "uploaded_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

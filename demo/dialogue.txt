@@ -1,0 +1,13 @@
+# Edit this file and run generate_demo_audio.py to create a new synthetic call.
+# Supported speakers are Agent and Consumer. Keep one utterance per line.
+
+Agent: Hello, this is Marcus calling from AstraGlobal on a recorded line. Am I speaking with James?
+Consumer: Yeah, this is James. Why do you guys keep bothering me about this?
+Agent: I'm calling regarding your outstanding balance of fourteen hundred dollars. We'd like to help you resolve this account today.
+Consumer: I don't have fourteen hundred dollars. This is ridiculous. I already told you people I'm struggling right now.
+Agent: I understand financial hardship can be stressful. Are you able to make a partial payment today to prevent the account from escalating?
+Consumer: Look, that's still too much right now. Could I do seven hundred dollars now and seven hundred dollars next month?
+Agent: Let me note that—seven hundred dollars today and seven hundred dollars on the fifteenth of next month. I'll need a supervisor to approve the settlement split. I'll follow up by Friday.
+Consumer: Fine. But if you don't accept this, I'm going to have my attorney look at these charges. And honestly, if you can't do the split, take me off your list and stop calling me.
+Agent: I understand, James. I have noted your request regarding further contact. I will speak to my supervisor about the settlement split and have an update for you by Friday.
+Consumer: Alright, bye.

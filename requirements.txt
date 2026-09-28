@@ -1,0 +1,10 @@
+streamlit>=1.57,<2
+requests>=2.31,<3
+logfire
+langsmith
+python-dotenv
+edge-tts
+pydub
+pytest
+jsonschema
+sentence-transformers

@@ -1,0 +1,2 @@
+Agent: When can we expect the remaining payment?
+Consumer: I'll call you back sometime next week, I'm not sure exactly when yet.

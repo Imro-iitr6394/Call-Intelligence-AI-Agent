@@ -1,0 +1,2 @@
+Agent: To verify your identity, can you confirm your details?
+Consumer: Sure, my social security number is on file with you already.

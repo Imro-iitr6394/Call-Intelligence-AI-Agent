@@ -1,0 +1,16 @@
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+data/sources/
+data/*.sqlite3
+
+# QA/scratch artifacts, not project source
+.qa_run/
+.codex/
+.deck_build/
+demo/generated_call.mp3
+*.pptx
+
+# Original assignment document -- not this project's to publish
+Call Intelligence AI Agent.docx

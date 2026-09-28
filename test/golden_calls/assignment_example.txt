@@ -1,0 +1,5 @@
+Agent: Hi, this is Marcus calling from AstraGlobal on a recorded line. Am I speaking with James?
+Consumer: Yeah, this is James.
+Agent: I'm calling about your outstanding balance. Are you able to make a payment today?
+Consumer: That's still too much right now. Could I do $700 now and $700 next month?
+Agent: Let me note that, $700 today and $700 on the 15th of next month. I'll need a supervisor to approve the settlement split. I'll follow up by Friday.

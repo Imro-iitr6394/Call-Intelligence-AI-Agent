@@ -1,0 +1,2 @@
+Agent: This call is being recorded for quality purposes.
+Consumer: I did not consent to being recorded.
